@@ -1,285 +1,77 @@
-package com.deliverytech.delivery.controller; 
-
- 
-
-import com.deliverytech.delivery.entity.Pedido; 
-
-import com.deliverytech.delivery.entity.StatusPedido; 
-
-import com.deliverytech.delivery.service.PedidoService; 
-
-import org.springframework.beans.factory.annotation.Autowired; 
-
-import org.springframework.http.HttpStatus; 
-
-import org.springframework.http.ResponseEntity; 
-
-import org.springframework.web.bind.annotation.*; 
-
- 
-
-import java.util.List; 
-
-import java.util.Optional; 
-
- 
-
-@RestController 
-
-@RequestMapping("/pedidos") 
-
-@CrossOrigin(origins = "*") 
-
-public class PedidoController { 
-
- 
-
-    @Autowired 
-
-    private PedidoService pedidoService; 
-
- 
-
-    /** 
-
-     * Criar novo pedido 
-
-     */ 
-
-    @PostMapping 
-
-    public ResponseEntity<?> criarPedido(@RequestParam Long clienteId, 
-
-                                        @RequestParam Long restauranteId) { 
-
-        try { 
-
-            Pedido pedido = pedidoService.criarPedido(clienteId, restauranteId); 
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(pedido); 
-
-        } catch (IllegalArgumentException e) { 
-
-            return ResponseEntity.badRequest().body("Erro: " + e.getMessage()); 
-
-        } catch (Exception e) { 
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR) 
-
-                .body("Erro interno do servidor"); 
-
-        } 
-
-    } 
-
- 
-
-    /** 
-
-     * Adicionar item ao pedido 
-
-     */ 
-
-    @PostMapping("/{pedidoId}/itens") 
-
-    public ResponseEntity<?> adicionarItem(@PathVariable Long pedidoId, 
-
-                                          @RequestParam Long produtoId, 
-
-                                          @RequestParam Integer quantidade) { 
-
-        try { 
-
-            Pedido pedido = pedidoService.adicionarItem(pedidoId, produtoId, quantidade); 
-
-            return ResponseEntity.ok(pedido); 
-
-        } catch (IllegalArgumentException e) { 
-
-            return ResponseEntity.badRequest().body("Erro: " + e.getMessage()); 
-
-        } catch (Exception e) { 
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR) 
-
-                .body("Erro interno do servidor"); 
-
-        } 
-
-    } 
-
- 
-
-    /** 
-
-     * Confirmar pedido 
-
-     */ 
-
-    @PutMapping("/{pedidoId}/confirmar") 
-
-    public ResponseEntity<?> confirmarPedido(@PathVariable Long pedidoId) { 
-
-        try { 
-
-            Pedido pedido = pedidoService.confirmarPedido(pedidoId); 
-
-            return ResponseEntity.ok(pedido); 
-
-        } catch (IllegalArgumentException e) { 
-
-            return ResponseEntity.badRequest().body("Erro: " + e.getMessage()); 
-
-        } catch (Exception e) { 
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR) 
-
-                .body("Erro interno do servidor"); 
-
-        } 
-
-    } 
-
- 
-
-    /** 
-
-     * Buscar pedido por ID 
-
-     */ 
-
-    @GetMapping("/{id}") 
-
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) { 
-
-        Optional<Pedido> pedido = pedidoService.buscarPorId(id); 
-
- 
-
-        if (pedido.isPresent()) { 
-
-            return ResponseEntity.ok(pedido.get()); 
-
-        } else { 
-
-            return ResponseEntity.notFound().build(); 
-
-        } 
-
-    } 
-
- 
-
-    /** 
-
-     * Listar pedidos por cliente 
-
-     */ 
-
-    @GetMapping("/cliente/{clienteId}") 
-
-    public ResponseEntity<List<Pedido>> listarPorCliente(@PathVariable Long clienteId) { 
-
-        List<Pedido> pedidos = pedidoService.listarPorCliente(clienteId); 
-
-        return ResponseEntity.ok(pedidos); 
-
-    } 
-
- 
-
-    /** 
-
-     * Buscar pedido por número 
-
-     */ 
-
-    @GetMapping("/numero/{numeroPedido}") 
-
-    public ResponseEntity<?> buscarPorNumero(@PathVariable String numeroPedido) { 
-
-        Optional<Pedido> pedido = pedidoService.buscarPorNumero(numeroPedido); 
-
- 
-
-        if (pedido.isPresent()) { 
-
-            return ResponseEntity.ok(pedido.get()); 
-
-        } else { 
-
-            return ResponseEntity.notFound().build(); 
-
-        } 
-
-    } 
-
- 
-
-    /** 
-
-     * Atualizar status do pedido 
-
-     */ 
-
-    @PutMapping("/{pedidoId}/status") 
-
-    public ResponseEntity<?> atualizarStatus(@PathVariable Long pedidoId, 
-
-                                            @RequestParam StatusPedido status) { 
-
-        try { 
-
-            Pedido pedido = pedidoService.atualizarStatus(pedidoId, status); 
-
-            return ResponseEntity.ok(pedido); 
-
-        } catch (IllegalArgumentException e) { 
-
-            return ResponseEntity.badRequest().body("Erro: " + e.getMessage()); 
-
-        } catch (Exception e) { 
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR) 
-
-                .body("Erro interno do servidor"); 
-
-        } 
-
-    } 
-
- 
-
-    /** 
-
-     * Cancelar pedido 
-
-     */ 
-
-    @PutMapping("/{pedidoId}/cancelar") 
-
-    public ResponseEntity<?> cancelarPedido(@PathVariable Long pedidoId, 
-
-                                           @RequestParam(required = false) String motivo) { 
-
-        try { 
-
-            Pedido pedido = pedidoService.cancelarPedido(pedidoId, motivo); 
-
-            return ResponseEntity.ok(pedido); 
-
-        } catch (IllegalArgumentException e) { 
-
-            return ResponseEntity.badRequest().body("Erro: " + e.getMessage()); 
-
-        } catch (Exception e) { 
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR) 
-
-                .body("Erro interno do servidor"); 
-
-        } 
-
-    } 
-
-} 
+package com.deliverytech.delivery.controller;
+
+import com.deliverytech.delivery.dto.request.ItemPedidoRequest;
+import com.deliverytech.delivery.dto.request.PedidoRequest;
+import com.deliverytech.delivery.dto.response.ItemPedidoResponse;
+import com.deliverytech.delivery.dto.response.PedidoResponse;
+import com.deliverytech.delivery.model.*;
+import com.deliverytech.delivery.service.ClienteService;
+import com.deliverytech.delivery.service.PedidoService;
+import com.deliverytech.delivery.service.ProdutoService;
+import com.deliverytech.delivery.service.RestauranteService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/pedidos")
+@RequiredArgsConstructor
+public class PedidoController {
+
+    private final PedidoService pedidoService;
+    private final ClienteService clienteService;
+    private final RestauranteService restauranteService;
+    private final ProdutoService produtoService;
+
+    @PostMapping
+    public ResponseEntity<PedidoResponse> criar(@Valid @RequestBody PedidoRequest request) {
+        Cliente cliente = clienteService.buscarPorId(request.getClienteId())
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        Restaurante restaurante = restauranteService.buscarPorId(request.getRestauranteId())
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        List<ItemPedido> itens = request.getItens().stream().map(item -> {
+            Produto produto = produtoService.buscarPorId(item.getProdutoId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            return ItemPedido.builder()
+                    .produto(produto)
+                    .quantidade(item.getQuantidade())
+                    .precoUnitario(produto.getPreco())
+                    .build();
+        }).collect(Collectors.toList());
+
+        BigDecimal total = itens.stream()
+                .map(i -> i.getPrecoUnitario().multiply(BigDecimal.valueOf(i.getQuantidade())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        Pedido pedido = Pedido.builder()
+                .cliente(cliente)
+                .restaurante(restaurante)
+                .status(StatusPedido.CRIADO)
+                .total(total)
+                .enderecoEntrega(request.getEnderecoEntrega())
+                .itens(itens)
+                .build();
+
+        Pedido salvo = pedidoService.criar(pedido);
+        List<ItemPedidoResponse> itensResp = salvo.getItens().stream()
+                .map(i -> new ItemPedidoResponse(i.getProduto().getId(), i.getProduto().getNome(), i.getQuantidade(), i.getPrecoUnitario()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new PedidoResponse(
+                salvo.getId(),
+                cliente.getId(),
+                restaurante.getId(),
+                salvo.getEnderecoEntrega(),
+                salvo.getTotal(),
+                salvo.getStatus(),
+                salvo.getDataPedido(),
+                itensResp
+        ));
+    }
+}
