@@ -24,8 +24,10 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Builder.Default
     private Boolean ativo = true;
 
+    @Builder.Default
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
     private Long restauranteId;

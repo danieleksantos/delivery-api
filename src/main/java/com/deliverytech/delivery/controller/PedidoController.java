@@ -1,6 +1,5 @@
 package com.deliverytech.delivery.controller;
 
-import com.deliverytech.delivery.dto.request.ItemPedidoRequest;
 import com.deliverytech.delivery.dto.request.PedidoRequest;
 import com.deliverytech.delivery.dto.response.ItemPedidoResponse;
 import com.deliverytech.delivery.dto.response.PedidoResponse;
