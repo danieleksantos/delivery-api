@@ -3,6 +3,8 @@ package com.deliverytech.delivery_api.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,11 +32,22 @@ public class Restaurante {
     @Column(name = "taxa_entrega")
     private BigDecimal taxaEntrega;
 
-    private BigDecimal avaliacao;
-
-    private Boolean ativo;
-
     public void inativar() {
         this.ativo = false;
     }
+
+    private BigDecimal avaliacao;
+    private boolean ativo;
+    private Integer tempoEntregaMinutos;
+
+    private String horarioFuncionamento;
+
+    @OneToMany(mappedBy = "restaurante")
+    @JsonIgnore
+    private List<Produto> produtos;
+
+    @OneToMany(mappedBy = "restaurante")
+    @JsonIgnore
+    private List<Pedido> pedidos;
 }
+

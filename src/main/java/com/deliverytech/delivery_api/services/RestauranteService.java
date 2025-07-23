@@ -66,7 +66,7 @@ public class RestauranteService {
                 restaurante.getTelefone(),
                 restaurante.getTaxaEntrega(),
                 restaurante.getAvaliacao(),
-                restaurante.getAtivo()));
+                restaurante.isAtivo()));
     }
     /**
      * Listar restaurantes ativos
@@ -86,7 +86,7 @@ public class RestauranteService {
                 restaurante.getTelefone(),
                 restaurante.getTaxaEntrega(),
                 restaurante.getAvaliacao(),
-                restaurante.getAtivo()))
+                restaurante.isAtivo()))
             .toList();
     }
 
@@ -109,7 +109,7 @@ public class RestauranteService {
                 restaurante.getTelefone(),
                 restaurante.getTaxaEntrega(),
                 restaurante.getAvaliacao(),
-                restaurante.getAtivo()))
+                restaurante.isAtivo()))
             .toList();
     }
 

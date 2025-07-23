@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deliverytech.delivery_api.entity.Produto;
+import com.deliverytech.delivery_api.entity.Restaurante;
 import com.deliverytech.delivery_api.dto.ProdutoDTO;
 import com.deliverytech.delivery_api.repository.ProdutoRepository;
 import com.deliverytech.delivery_api.repository.RestauranteRepository;
@@ -25,8 +26,8 @@ public class ProdutoService {
      * Cadastrar novo produto
      */
     public Produto cadastrar(Produto produto) {
-
-        produto.setRestauranteId(produto.getRestauranteId());
+        Restaurante restaurante = restauranteRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado: "));
+        produto.setRestaurante(restaurante);
         produto.setDisponivel(produto.getDisponivel());
 
         return produtoRepository.save(produto);

@@ -29,6 +29,8 @@ public class Produto {
 
     private Boolean disponivel;
 
-    private Long restauranteId;
+    @ManyToOne
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
 
 }

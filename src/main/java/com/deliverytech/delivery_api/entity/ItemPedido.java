@@ -26,7 +26,6 @@ public class ItemPedido {
     private Produto produto;
 
 	public void calcularSubtotal() {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.deliverytech.delivery_api.entity.ItemPedido;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +22,6 @@ public class PedidoDTO {
     private String observacoes;
     private Long clienteId;
     private Long restauranteId;
-    private String itens; // JSON ou string representando os itens do pedido
+    private List<ItemPedido> itens; // JSON ou string representando os itens do pedido
 
 }

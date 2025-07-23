@@ -46,14 +46,14 @@ public class PedidoService {
             throw new IllegalArgumentException("Cliente inativo não pode fazer pedidos");
         }
 
-        if (!restaurante.getAtivo()) {
+        if (!restaurante.isAtivo()) {
             throw new IllegalArgumentException("Restaurante não está disponível");
         }
 
         Pedido pedido = new Pedido();
-        pedido.setClienteId(cliente.getId());
+        pedido.setCliente(cliente);
         pedido.setRestaurante(restaurante);
-        pedido.setStatus(StatusPedido.PENDENTE.name());
+        pedido.setStatus(StatusPedido.PENDENTE);
         pedido.setDataPedido(dto.getDataPedido());
         pedido.setNumeroPedido(dto.getNumeroPedido());
         pedido.setValorTotal(dto.getValorTotal());
@@ -82,7 +82,7 @@ public class PedidoService {
             throw new IllegalArgumentException("Pedido já finalizado: " + pedidoId);
         }
 
-        pedido.setStatus(status.name());
+        pedido.setStatus(status);
         return pedidoRepository.save(pedido);
     }
     // Pedidos por cliente

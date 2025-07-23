@@ -2,8 +2,11 @@ package com.deliverytech.delivery_api.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.deliverytech.delivery_api.enums.StatusPedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,23 +27,30 @@ public class Pedido {
     @Column(name = "numero_pedido")
     private String numeroPedido;
 
-    @Column(name = "data_pedido")
-    private LocalDateTime dataPedido;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
+
+    private String enderecoEntrega;
+    private BigDecimal subtotal;
+    private BigDecimal taxaEntrega;
+
 
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
 
     private String observacoes;
 
-    @Column(name = "cliente_id")
-    private Long clienteId;
-
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
-    private String itens;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
+    private LocalDateTime dataPedido;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ItemPedido> itens = new ArrayList<>();
 }
