@@ -39,4 +39,10 @@ public interface RestauranteRepository extends JpaRepository <Restaurante, Long>
             "GROUP BY r.id, r.nome")
     List<RelatorioVendas> relatorioVendasPorRestaurante();
 
+    Restaurante findByNomeAndAtivoTrue(String nome);
+
+    // Buscar por faixa de taxa de entrega
+    @Query("SELECT r FROM Restaurante r WHERE r.taxaEntrega BETWEEN :min AND :max AND r.ativo = true")
+    List<Restaurante> findByTaxaEntregaBetween(@Param("min") BigDecimal min, @Param("max") BigDecimal max);
+
 }
